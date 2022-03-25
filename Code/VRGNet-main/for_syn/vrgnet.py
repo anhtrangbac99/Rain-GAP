@@ -10,6 +10,7 @@ import torch.optim as optim
 import torch.utils.data
 from torch.autograd import Variable
 import torch.nn.functional as F
+from non_local_helper import Nonlocal
 from prenet import PReNet
 
 def reparametrize(mu, logvar):
@@ -39,6 +40,7 @@ class EDNet(nn.Module):  # RNet + G
         self.nz = nz
         self.nef= nef
         self.encoder = Encoder(self.nc,self.nef,self.nz)
+        # self.non_local = Nonlocal()
         self.decoder = Decoder(self.nz,self.nef,self.nc)
     def sample (self, input):
         return  self.decoder(input)

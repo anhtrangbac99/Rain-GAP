@@ -25,10 +25,11 @@ from math import log,ceil
 import re
 import glob
 import time
+from PIL import Image
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--data_path",type=str, default="./data/rain100L/train/small/rain",help='path to training input')
-parser.add_argument("--gt_path",type=str, default="./data/rain100L/train/small/norain",help='path to training gt')
+parser.add_argument("--data_path",type=str, default="./data/rain1400/training/rainy_image",help='path to training input')
+parser.add_argument("--gt_path",type=str, default="./data/rain1400/training/ground_truth",help='path to training gt')
 parser.add_argument('--workers', type=int, help='number of data loading workers', default=4)
 parser.add_argument('--batchSize', type=int, default=8, help='batch size')
 parser.add_argument('--patchSize', type=int, default=64, help='the height / width of the input image to network')
@@ -51,6 +52,10 @@ parser.add_argument("--gpu_id", type=str, default="0", help='GPU id')
 parser.add_argument('--log_dir', default='./syn100llogs/', help='tensorboard logs')
 parser.add_argument('--model_dir',default='./syn100lmodels/',help='saving model')
 parser.add_argument('--manualSeed', type=int, help='manual seed')
+parser.add_argument('--alpha_uni',default=0.7,help='alpha of uniform distribution')
+parser.add_argument('--beta_uni', default=1.0, help='beta of uniform distribution')
+parser.add_argument('--theta_noise', default=0.2, help='theta noise')
+
 opt = parser.parse_args()
 
 if opt.use_gpu:
@@ -81,12 +86,13 @@ def weights_init(m):
 
 log_max = log(1e4)
 log_min = log(1e-8)
-def train_model(netDerain, netED, netD, datasets, optimizerDerain, lr_schedulerDerain, optimizerED, lr_schedulerED, optimizerD, lr_schedulerD):
+def train_model(netDerain, netED, netD, datasets, optimizerDerain, lr_schedulerDerain, optimizerED, lr_schedulerED, optimizerD, lr_schedulerD,alpha_uni,beta_uni,theta_noise):
     data_loader= DataLoader(datasets, batch_size=opt.batchSize,shuffle=True, num_workers=int(opt.workers), pin_memory=True)
     num_data = len(datasets)
     num_iter_epoch = ceil(num_data / opt.batchSize)
     writer = SummaryWriter(opt.log_dir)
     step = 0
+
     for epoch in range(opt.resume, opt.niter):
         mse_per_epoch = 0
         tic = time.time()
@@ -97,6 +103,8 @@ def train_model(netDerain, netED, netD, datasets, optimizerDerain, lr_schedulerD
         print('lr_Derain %f'  % lrDerain)
         print('lr_ED %f' % lrED)
         print('lrD %f' % lrD)
+
+
         for ii, data in enumerate(data_loader):
             # print('here')
             input, gt = [x.cuda() for x in data]
@@ -110,7 +118,19 @@ def train_model(netDerain, netED, netD, datasets, optimizerDerain, lr_schedulerD
             d_loss_real = - torch.mean(d_out_real)
             # train with fake
             mu_b, logvar_b = netDerain(input)
-            rain_make, mu_z, logvar_z,_= netED(input)
+            
+            if ii == 0:
+                noise_input = ((beta_uni-alpha_uni) *torch.rand(input.shape) + alpha_uni).cuda()
+                noise_input_ = noise_input.view(-1)
+                for i in range(len(noise_input)):
+                    if torch.rand(1) > theta_noise:
+                        noise_input_[i] = 0
+
+                noise_input = noise_input_.view(noise_input.size())
+                
+            rain_make, mu_z, logvar_z,_= netED(noise_input)
+
+
             input_fake = mu_b + rain_make
             d_out_fake, df1, df2 = netD(input_fake.detach())
             d_loss_fake = d_out_fake.mean()
@@ -157,7 +177,7 @@ def train_model(netDerain, netED, netD, datasets, optimizerDerain, lr_schedulerD
             mse_iter = recon_loss.item()
             mse_per_epoch += mse_iter
             if ii % 200 == 0:
-                template = '[Epoch:{:>2d}/{:<2d}] {:0>5d}/{:0>5d}, Loss={:5.2e}, gfake={:5.2e} errG={: 5.2e}'
+                template = '[Epoch:{:>2d}/{:<2d}] {:0>5d}/{:0>5d}, Loss={:.5f}, gfake={:.5f} errG={:.5f}'
                 print(template.format(epoch+1, opt.niter, ii, num_iter_epoch, mse_iter, g_loss_fake.item(), errED.item()))
                 writer.add_scalar('Derain Loss Iter', mse_iter, step)
                 writer.add_scalar('Dloss', errD.item(), step)
@@ -180,7 +200,7 @@ def train_model(netDerain, netED, netD, datasets, optimizerDerain, lr_schedulerD
                 writer.add_image('Rain_fake', x6, step)
             step += 1
         mse_per_epoch /= (ii+1)
-        print('Epoch:{:>2d}, Derain_Loss={:+.2e}'.format(epoch+1, mse_per_epoch))
+        print('Epoch:{:>2d}, Derain_Loss={:.5f}'.format(epoch+1, mse_per_epoch))
         # adjust the learning rate
         lr_schedulerDerain.step()
         lr_schedulerED.step()
@@ -227,7 +247,7 @@ def main():
     # training data
     train_dataset = TrainDataset(opt.data_path, opt.gt_path, opt.patchSize, opt.batchSize*3000)
     # train model
-    train_model(netDerain, netED, netD, train_dataset, optimizerDerain, schedulerDerain, optimizerED, schedulerED, optimizerD, schedulerD)
+    train_model(netDerain, netED, netD, train_dataset, optimizerDerain, schedulerDerain, optimizerED, schedulerED, optimizerD, schedulerD,opt.alpha_uni,opt.beta_uni,opt.theta_noise)
 
 if __name__ == '__main__':
     main()
