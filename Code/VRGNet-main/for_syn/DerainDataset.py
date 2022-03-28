@@ -5,6 +5,7 @@ import torch
 import cv2
 import torch.utils.data as udata
 from numpy.random import RandomState
+from rain_gen import rain_gen
 
 class TrainDataset(udata.Dataset):
     def __init__(self, inputname, gtname,patchsize,length):
@@ -38,7 +39,17 @@ class TrainDataset(udata.Dataset):
         B = gt_img[row: row + self.patch_size, col : col + self.patch_size]
         B = B.astype(np.float32) / 255
         B = np.transpose(B, (2, 0, 1))
-        return torch.Tensor(O), torch.Tensor(B)
+
+        rain = rain_gen()
+
+        b, g, r = cv2.split(rain)
+
+        rain_layer = cv2.merge([r, g, b])
+        rain = rain_layer[0: 64, 0 : 64]
+        rain = rain.astype(np.float32) / 255
+        rain = np.transpose(rain, (2, 0, 1))
+
+        return torch.Tensor(O), torch.Tensor(B), torch.Tensor(rain)
 
     def crop(self, img):
         h, w, c = img.shape

@@ -29,6 +29,7 @@ import time
 from PIL import Image
 from perceptual_loss import VGGPerceptualLoss
 from rescan import RESCAN
+import cv2
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--data_path",type=str, default="./data/rain1400/training/rainy_image",help='path to training input')
@@ -89,6 +90,10 @@ def weights_init(m):
 
 log_max = log(1e4)
 log_min = log(1e-8)
+
+
+
+
 def train_model(netDerain, netED, netD, datasets, optimizerDerain, lr_schedulerDerain, optimizerED, lr_schedulerED, optimizerD, lr_schedulerD,alpha_uni,beta_uni,theta_noise):
     data_loader= DataLoader(datasets, batch_size=opt.batchSize,shuffle=True, num_workers=int(opt.workers), pin_memory=True)
     num_data = len(datasets)
@@ -112,7 +117,7 @@ def train_model(netDerain, netED, netD, datasets, optimizerDerain, lr_schedulerD
 
         for ii, data in enumerate(data_loader):
             # print('here')
-            input, gt = [x.cuda() for x in data]
+            input, gt,rain_layers = [x.cuda() for x in data]
             ############################
             # (1) Update Discriminator D :
             ###########################
@@ -123,6 +128,7 @@ def train_model(netDerain, netED, netD, datasets, optimizerDerain, lr_schedulerD
             d_loss_real = - torch.mean(d_out_real)
             # train with fake
             mu_b, logvar_b = netDerain(input)
+
             # img_derain, rain_layer = netDerain(input)
             if ii == 0:
                 noise_input = ((beta_uni-alpha_uni) *torch.rand(input.shape) + alpha_uni).cuda()
@@ -132,14 +138,15 @@ def train_model(netDerain, netED, netD, datasets, optimizerDerain, lr_schedulerD
                         noise_input_[i] = 0
 
                 noise_input = noise_input_.view(noise_input.size())
-                
+            
             rain_make, mu_z, logvar_z,_= netED(noise_input)
             # style_loss = loss_network(rain_make,)
             input_fake = mu_b + rain_make
             d_out_fake, df1, df2 = netD(input_fake.detach())
             d_loss_fake = d_out_fake.mean()
+
             
-            percep_loss = loss_network(rain_make,gt - input)
+            percep_loss = loss_network(rain_make,rain_layers)
             
             # KL divergence for Gauss distribution
             logvar_b.clamp_(min=log_min, max=log_max) # clip
