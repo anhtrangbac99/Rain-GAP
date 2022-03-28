@@ -30,6 +30,8 @@ from PIL import Image
 from perceptual_loss import VGGPerceptualLoss
 from rescan import RESCAN
 import cv2
+import os
+import datetime
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--data_path",type=str, default="./data/rain1400/training/rainy_image",help='path to training input')
@@ -53,8 +55,8 @@ parser.add_argument('--n_dis', type=int, default=5, help='discriminator critic i
 parser.add_argument('--eps2', type=float, default= 1e-6, help='prior variance for variable b')
 parser.add_argument("--use_gpu", type=bool, default=True, help='use GPU or not')
 parser.add_argument("--gpu_id", type=str, default="0", help='GPU id')
-parser.add_argument('--log_dir', default='./syn100llogs/', help='tensorboard logs')
-parser.add_argument('--model_dir',default='./syn100lmodels/',help='saving model')
+parser.add_argument('--log_dir', default='./syn1400logs/', help='tensorboard logs')
+parser.add_argument('--model_dir',default='./syn1400models/',help='saving model')
 parser.add_argument('--manualSeed', type=int, help='manual seed')
 parser.add_argument('--alpha_uni',default=0.7,help='alpha of uniform distribution')
 parser.add_argument('--beta_uni', default=1.0, help='beta of uniform distribution')
@@ -98,7 +100,13 @@ def train_model(netDerain, netED, netD, datasets, optimizerDerain, lr_schedulerD
     data_loader= DataLoader(datasets, batch_size=opt.batchSize,shuffle=True, num_workers=int(opt.workers), pin_memory=True)
     num_data = len(datasets)
     num_iter_epoch = ceil(num_data / opt.batchSize)
-    writer = SummaryWriter(opt.log_dir)
+
+    now = datetime.datetime.now()
+    current_time = now.strftime("%H_%M_%S_%Y_%m_%d")
+    dir_path = opt.log_dir + current_time
+    os.mkdir(dir_path)
+    writer = SummaryWriter(dir_path)
+
     step = 0
 
     # vgg_model = vgg16(pretrained=True)

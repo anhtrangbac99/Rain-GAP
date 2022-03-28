@@ -10,4 +10,4 @@
 
 module load anaconda
 source activate kietcdx
-python train_syn_joint.py --data_path data/rain1400/training/rainy_image --gt_path data/rain1400/training/ground_truth --resume 225 --niter 2000
+python train_syn_joint.py --data_path data/rain1400/training/rainy_image --gt_path data/rain1400/training/ground_truth --niter 2000
