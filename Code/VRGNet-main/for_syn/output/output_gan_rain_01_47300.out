@@ -1,0 +1,5 @@
+Random Seed:  697
+lr_Derain 0.000200
+lr_ED 0.000100
+lrD 0.000400
+[Epoch: 1/2000] 00000/03000, Loss=0.00727, gfake=-0.78258 errG=510092.06250

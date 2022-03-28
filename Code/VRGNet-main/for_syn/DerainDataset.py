@@ -31,8 +31,9 @@ class TrainDataset(udata.Dataset):
 
         gt_file = os.path.join(self.gt_dir, file_name.split('_')[0]+'.jpg')
         B = cv2.imread(gt_file)
-
+        
         b, g, r = cv2.split(B)
+
         gt_img = cv2.merge([r, g, b])
         B = gt_img[row: row + self.patch_size, col : col + self.patch_size]
         B = B.astype(np.float32) / 255

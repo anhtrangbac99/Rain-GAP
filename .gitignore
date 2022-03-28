@@ -2,3 +2,5 @@ data/
 syn100llogs/
 syn100lmodels/
 syn100hmodels/
+out/
+error/

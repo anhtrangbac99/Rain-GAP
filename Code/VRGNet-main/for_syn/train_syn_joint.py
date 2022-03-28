@@ -14,6 +14,7 @@ import torch.backends.cudnn as cudnn
 import torch.optim as optim
 from torch.autograd import Variable
 import torchvision.utils as vutils
+from torchvision.models import vgg16
 from vrgnet import Derain, EDNet   # Derain: BNet,  EDNet: RNet+G
 from sagan_discriminator import Discriminator  # Discriminator: D
 from torch.utils.data import DataLoader
@@ -26,6 +27,8 @@ import re
 import glob
 import time
 from PIL import Image
+from perceptual_loss import VGGPerceptualLoss
+from rescan import RESCAN
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--data_path",type=str, default="./data/rain1400/training/rainy_image",help='path to training input')
@@ -93,6 +96,8 @@ def train_model(netDerain, netED, netD, datasets, optimizerDerain, lr_schedulerD
     writer = SummaryWriter(opt.log_dir)
     step = 0
 
+    # vgg_model = vgg16(pretrained=True)
+    loss_network = VGGPerceptualLoss().cuda()
     for epoch in range(opt.resume, opt.niter):
         mse_per_epoch = 0
         tic = time.time()
@@ -118,7 +123,7 @@ def train_model(netDerain, netED, netD, datasets, optimizerDerain, lr_schedulerD
             d_loss_real = - torch.mean(d_out_real)
             # train with fake
             mu_b, logvar_b = netDerain(input)
-            
+            # img_derain, rain_layer = netDerain(input)
             if ii == 0:
                 noise_input = ((beta_uni-alpha_uni) *torch.rand(input.shape) + alpha_uni).cuda()
                 noise_input_ = noise_input.view(-1)
@@ -129,16 +134,19 @@ def train_model(netDerain, netED, netD, datasets, optimizerDerain, lr_schedulerD
                 noise_input = noise_input_.view(noise_input.size())
                 
             rain_make, mu_z, logvar_z,_= netED(noise_input)
-
-
+            # style_loss = loss_network(rain_make,)
             input_fake = mu_b + rain_make
             d_out_fake, df1, df2 = netD(input_fake.detach())
             d_loss_fake = d_out_fake.mean()
+            
+            percep_loss = loss_network(rain_make,gt - input)
+            
             # KL divergence for Gauss distribution
             logvar_b.clamp_(min=log_min, max=log_max) # clip
             var_b_div_eps = torch.div(torch.exp(logvar_b), opt.eps2)
             kl_gauss_b = 0.5 * torch.mean(
                 (mu_b - gt) ** 2 / opt.eps2 + (var_b_div_eps - 1 - torch.log(var_b_div_eps)))
+
             logvar_z.clamp_(min=log_min, max=log_max) # clip
             var_z = torch.exp(logvar_z)
             kl_gauss_z = 0.5 * torch.mean(mu_z ** 2 + (var_z - 1 - logvar_z))
@@ -169,7 +177,7 @@ def train_model(netDerain, netED, netD, datasets, optimizerDerain, lr_schedulerD
                 netED.zero_grad()
                 g_out_fake, _, _ = netD(input_fake)
                 g_loss_fake = - g_out_fake.mean()
-                errED = g_loss_fake + kl_gauss_z + kl_gauss_b
+                errED = g_loss_fake + kl_gauss_z + kl_gauss_b + percep_loss
                 errED.backward()
                 optimizerED.step()
                 optimizerDerain.step()
@@ -220,9 +228,10 @@ def train_model(netDerain, netED, netD, datasets, optimizerDerain, lr_schedulerD
 
 def main():
     # move the model to GPU
-    netDerain = Derain(opt.stage).cuda()                     # PReNet
+    netDerain = Derain(opt.stage).cuda() # PReNet
     netED = EDNet(opt.nc, opt.nz, opt.nef).cuda()
     netD = Discriminator(batch_size=opt.batchSize, image_size=opt.patchSize, conv_dim=opt.ndf).cuda()
+    
     # optimizer
     optimizerDerain = optim.Adam(netDerain.parameters(), lr=opt.lrDerain)
     optimizerED = optim.Adam(netED.parameters(), lr=opt.lrED)
