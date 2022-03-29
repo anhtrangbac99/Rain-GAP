@@ -2,5 +2,7 @@ data/
 syn100llogs/
 syn100lmodels/
 syn100hmodels/
+syn1400logs/
+syn1400models/
 out/
 error/
