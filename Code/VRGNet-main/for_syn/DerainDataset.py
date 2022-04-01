@@ -18,7 +18,7 @@ class TrainDataset(udata.Dataset):
         self.file_num = len(self.img_files)
         self.sample_num = length
     def __len__(self):
-        return self.sample_num
+        return self.file_num
 
     def __getitem__(self, idx):
         file_name = self.img_files[idx % self.file_num]

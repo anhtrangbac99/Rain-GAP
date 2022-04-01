@@ -15,7 +15,7 @@ parser.add_argument('--stage', type=int, default=6, help='the stage number of PR
 parser.add_argument("--use_gpu", type=bool, default=True, help='use GPU or not')
 parser.add_argument("--gpu_id", type=str, default="0", help='GPU id')
 parser.add_argument('--netDerain', default='./syn100lmodels/DerainNet_state_700.pt', help="path to trained BNet")
-parser.add_argument('--save_path', default='./derained_results/rain100L/', help='folder to derained images')
+parser.add_argument('--save_path', default='./derained_results/rain1400/', help='folder to derained images')
 opt = parser.parse_args()
 
 if opt.use_gpu:

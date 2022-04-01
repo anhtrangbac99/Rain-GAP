@@ -71,6 +71,8 @@ def main():
     netED.eval()
     z_list=[]
     B_list=[]
+
+    
     for img_name in os.listdir(opt.data_path):
         if is_image(img_name):
             img_path = os.path.join(opt.data_path, img_name)
@@ -82,6 +84,13 @@ def main():
             input_img = cv2.merge([r, g, b])
             # crop input to 64x64 and save
             O, row, col = crop(input_img)
+            noise_input = ((1.0-0.7) *torch.rand((1,3, 64, 64)) + 0.7).cuda()
+            noise_input_ = noise_input.view(-1)
+            for i in range(len(noise_input)):
+                if torch.rand(1) > 0.2:
+                    noise_input_[i] = 0
+            noise_input = noise_input_.view(noise_input.size())
+
             O = O.astype(np.float32) / 255
             O_patch = O
             b, g, r = cv2.split(O)
@@ -112,7 +121,12 @@ def main():
             with torch.no_grad():  #
                 if opt.use_gpu:
                     torch.cuda.synchronize()
-                _, _, _,z = netED(O) # z: 1*nz
+                rain_make, _, _,z = netED(noise_input) # z: 1*nz
+                # a = rain_make[0].transpose(1, 2, 0)
+                a = 255 * rain_make[0].cpu().numpy().squeeze().transpose(1, 2, 0)
+                # print(a.size())
+                cv2.imwrite('1.png',a)
+
                 z_list.append(z)
     for lambda_weight in (np.linspace(0,1,21)):
         z_mix = (lambda_weight * z_list[0] + (1 - lambda_weight) * z_list[1])/(np.sqrt(lambda_weight** 2+(1 - lambda_weight) **2))
