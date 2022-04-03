@@ -110,7 +110,7 @@ def train_model(netDerain, netED, netD, datasets, optimizerDerain, lr_schedulerD
     step = 0
 
     # vgg_model = vgg16(pretrained=True)
-    loss_network = VGGPerceptualLoss().cuda()
+    loss_network = nn.MSELoss().cuda()
     for epoch in range(opt.resume, opt.niter):
         mse_per_epoch = 0
         tic = time.time()

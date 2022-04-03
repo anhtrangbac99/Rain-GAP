@@ -123,9 +123,9 @@ def main():
                     torch.cuda.synchronize()
                 rain_make, _, _,z = netED(noise_input) # z: 1*nz
                 # a = rain_make[0].transpose(1, 2, 0)
-                a = 255 * rain_make[0].cpu().numpy().squeeze().transpose(1, 2, 0)
-                # print(a.size())
-                cv2.imwrite('1.png',a)
+                # a = 255 * rain_make[0].cpu().numpy().squeeze().transpose(1, 2, 0)
+                # # print(a.size())
+                # cv2.imwrite('1.png',a)
 
                 z_list.append(z)
     for lambda_weight in (np.linspace(0,1,21)):

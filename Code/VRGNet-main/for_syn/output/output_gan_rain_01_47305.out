@@ -1,6 +1,0 @@
-Random Seed:  381
-lr_Derain 0.000200
-lr_ED 0.000100
-lrD 0.000400
-data/rain1400/training/ground_truth/70.jpg
-[Epoch: 1/2000] 00000/03000, Loss=0.00600, gfake=-0.58905 errG=547940.75000
