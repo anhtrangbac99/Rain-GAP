@@ -10,4 +10,4 @@
 
 module load anaconda
 source activate kietcdx
-python test_interpolation.py --netED syn1400models/ED_state_272.pt
+python test_interpolation.py --netED syn1400models/ED_state_65.pt

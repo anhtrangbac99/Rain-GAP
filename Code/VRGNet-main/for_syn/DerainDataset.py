@@ -17,6 +17,16 @@ class TrainDataset(udata.Dataset):
         self.rand_state = RandomState(66)
         self.file_num = len(self.img_files)
         self.sample_num = length
+        rain = rain_gen()
+
+        b, g, r = cv2.split(rain)
+
+        rain_layer = cv2.merge([r, g, b])
+        rain = rain_layer[0: 64, 0 : 64]
+        rain = rain.astype(np.float32) / 255
+        rain = np.transpose(rain, (2, 0, 1))
+        self.rain = rain
+
     def __len__(self):
         return self.file_num
 
@@ -40,16 +50,8 @@ class TrainDataset(udata.Dataset):
         B = B.astype(np.float32) / 255
         B = np.transpose(B, (2, 0, 1))
 
-        rain = rain_gen()
-
-        b, g, r = cv2.split(rain)
-
-        rain_layer = cv2.merge([r, g, b])
-        rain = rain_layer[0: 64, 0 : 64]
-        rain = rain.astype(np.float32) / 255
-        rain = np.transpose(rain, (2, 0, 1))
-
-        return torch.Tensor(O), torch.Tensor(B), torch.Tensor(rain)
+        
+        return torch.Tensor(O), torch.Tensor(B), torch.Tensor(self.rain)
 
     def crop(self, img):
         h, w, c = img.shape

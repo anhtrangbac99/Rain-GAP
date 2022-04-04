@@ -1,0 +1,5 @@
+Random Seed:  6705
+lr_Derain 0.000200
+lr_ED 0.000100
+lrD 0.000400
+tensor(2.2019e-08, device='cuda:0', grad_fn=<MseLossBackward0>)

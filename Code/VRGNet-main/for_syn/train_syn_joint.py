@@ -32,6 +32,7 @@ from rescan import RESCAN
 import cv2
 import os
 import datetime
+from gram_loss import *
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--data_path",type=str, default="./data/rain1400/training/rainy_image",help='path to training input')
@@ -94,8 +95,6 @@ log_max = log(1e4)
 log_min = log(1e-8)
 
 
-
-
 def train_model(netDerain, netED, netD, datasets, optimizerDerain, lr_schedulerDerain, optimizerED, lr_schedulerED, optimizerD, lr_schedulerD,alpha_uni,beta_uni,theta_noise):
     data_loader= DataLoader(datasets, batch_size=opt.batchSize,shuffle=True, num_workers=int(opt.workers), pin_memory=True)
     num_data = len(datasets)
@@ -110,7 +109,9 @@ def train_model(netDerain, netED, netD, datasets, optimizerDerain, lr_schedulerD
     step = 0
 
     # vgg_model = vgg16(pretrained=True)
-    loss_network = nn.MSELoss().cuda()
+    # loss_network = nn.MSELoss().cuda()
+    # loss_network = StyleLoss().cuda()
+    loss_network = torch.nn.L1Loss().cuda()
     for epoch in range(opt.resume, opt.niter):
         mse_per_epoch = 0
         tic = time.time()
@@ -139,13 +140,18 @@ def train_model(netDerain, netED, netD, datasets, optimizerDerain, lr_schedulerD
 
             # img_derain, rain_layer = netDerain(input)
             if ii == 0:
-                noise_input = ((beta_uni-alpha_uni) *torch.rand(input.shape) + alpha_uni).cuda()
-                noise_input_ = noise_input.view(-1)
-                for i in range(len(noise_input)):
-                    if torch.rand(1) > theta_noise:
-                        noise_input_[i] = 0
+                list_input = []
+                noise_input = ((beta_uni-alpha_uni) *torch.rand(input.shape[1:]) + alpha_uni).cuda()
+                # noise_input_ = noise_input.view(-1)
+                # for i in range(len(noise_input)):
+                #     if torch.rand(1) > theta_noise:
+                #         noise_input_[i] = 0
+                # noise_input = noise_input_.view(noise_input.size())
+                for idx in range(input.shape[0]):
+                    list_input.append(noise_input)
 
-                noise_input = noise_input_.view(noise_input.size())
+                noise_input = torch.stack(list_input)
+                # noise_input = noise_input.astype(np.float32) / 255
             
             rain_make, mu_z, logvar_z,_= netED(noise_input)
             # style_loss = loss_network(rain_make,)
@@ -153,9 +159,9 @@ def train_model(netDerain, netED, netD, datasets, optimizerDerain, lr_schedulerD
             d_out_fake, df1, df2 = netD(input_fake.detach())
             d_loss_fake = d_out_fake.mean()
 
-            
             percep_loss = loss_network(rain_make,rain_layers)
-            
+            # print(percep_loss)
+            # exit()
             # KL divergence for Gauss distribution
             logvar_b.clamp_(min=log_min, max=log_max) # clip
             var_b_div_eps = torch.div(torch.exp(logvar_b), opt.eps2)
@@ -200,8 +206,8 @@ def train_model(netDerain, netED, netD, datasets, optimizerDerain, lr_schedulerD
             mse_iter = recon_loss.item()
             mse_per_epoch += mse_iter
             if ii % 200 == 0:
-                template = '[Epoch:{:>2d}/{:<2d}] {:0>5d}/{:0>5d}, Loss={:.5f}, gfake={:.5f} errG={:.5f}'
-                print(template.format(epoch+1, opt.niter, ii, num_iter_epoch, mse_iter, g_loss_fake.item(), errED.item()))
+                template = '[Epoch:{:>2d}/{:<2d}] {:0>5d}/{:0>5d}, Loss={:.5f}, gfake={:.5f},errG={:.5f},style_loss={:.5f}'
+                print(template.format(epoch+1, opt.niter, ii, num_iter_epoch, mse_iter, g_loss_fake.item(), errED.item(),percep_loss.item()))
                 writer.add_scalar('Derain Loss Iter', mse_iter, step)
                 writer.add_scalar('Dloss', errD.item(), step)
                 writer.add_scalar('EDloss', errED.item(), step)
