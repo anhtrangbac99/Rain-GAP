@@ -1,0 +1,10 @@
+
+output_dir: 'checkpoints/rain'
+structure: 'linear'
+device_id: ('3')
+dataset:
+  img_dir: '/home/hzh/data/img_align_celeba'
+  folder: False
+  resolution: 128
+sched:
+  epochs: [2,4,4,4,4,8]

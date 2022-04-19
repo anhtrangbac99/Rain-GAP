@@ -1,0 +1,51 @@
+True
+Using 1 GPUs.
+Training from scratch...
+Elapsed: [0:00:02] Epoch:1 Step: 1  Batch: 1  D_Loss: 69.595978  G_Loss: 0.624868
+Elapsed: [0:00:07] Epoch:1 Step: 113  Batch: 113  D_Loss: 16.275219  G_Loss: 2.106962
+Elapsed: [0:00:12] Epoch:1 Step: 226  Batch: 226  D_Loss: 7.482792  G_Loss: 1.332444
+Elapsed: [0:00:17] Epoch:1 Step: 339  Batch: 339  D_Loss: 5.186363  G_Loss: 1.151816
+Elapsed: [0:00:21] Epoch:1 Step: 452  Batch: 452  D_Loss: 2.306654  G_Loss: 1.019891
+Elapsed: [0:00:26] Epoch:1 Step: 565  Batch: 565  D_Loss: 2.743472  G_Loss: 1.052702
+Elapsed: [0:00:31] Epoch:1 Step: 678  Batch: 678  D_Loss: 2.364117  G_Loss: 0.813550
+Elapsed: [0:00:35] Epoch:1 Step: 791  Batch: 791  D_Loss: 2.389367  G_Loss: 0.948507
+Elapsed: [0:00:40] Epoch:1 Step: 904  Batch: 904  D_Loss: 1.958448  G_Loss: 0.795547
+Elapsed: [0:00:45] Epoch:1 Step: 1017  Batch: 1017  D_Loss: 1.566020  G_Loss: 0.740988
+Time taken for epoch: 0:00:49
+
+Saving the model to: checkpoints/rain/models/GAN_GEN_0_1.pth
+
+Saving the model to: checkpoints/rain/models/GAN_GEN_SHADOW_0_1.pth
+
+Elapsed: [0:00:52] Epoch:2 Step: 1126  Batch: 1  D_Loss: 1.771310  G_Loss: 0.785234
+Elapsed: [0:00:57] Epoch:2 Step: 1238  Batch: 113  D_Loss: 1.698456  G_Loss: 0.704892
+Elapsed: [0:01:02] Epoch:2 Step: 1351  Batch: 226  D_Loss: 2.018016  G_Loss: 0.720731
+Elapsed: [0:01:07] Epoch:2 Step: 1464  Batch: 339  D_Loss: 1.436778  G_Loss: 0.702626
+Elapsed: [0:01:12] Epoch:2 Step: 1577  Batch: 452  D_Loss: 1.410092  G_Loss: 0.717965
+Elapsed: [0:01:16] Epoch:2 Step: 1690  Batch: 565  D_Loss: 1.852107  G_Loss: 0.738796
+Elapsed: [0:01:21] Epoch:2 Step: 1803  Batch: 678  D_Loss: 1.437893  G_Loss: 0.705383
+Elapsed: [0:01:26] Epoch:2 Step: 1916  Batch: 791  D_Loss: 1.432072  G_Loss: 0.717231
+Elapsed: [0:01:31] Epoch:2 Step: 2029  Batch: 904  D_Loss: 1.398586  G_Loss: 0.703207
+Elapsed: [0:01:36] Epoch:2 Step: 2142  Batch: 1017  D_Loss: 1.424728  G_Loss: 0.722348
+Time taken for epoch: 0:00:48
+
+Saving the model to: checkpoints/rain/models/GAN_GEN_0_2.pth
+
+Saving the model to: checkpoints/rain/models/GAN_GEN_SHADOW_0_2.pth
+
+Elapsed: [0:01:44] Epoch:1 Step: 2251  Batch: 1  D_Loss: 1.375433  G_Loss: 0.711359
+Elapsed: [0:01:56] Epoch:1 Step: 2363  Batch: 113  D_Loss: 1.370391  G_Loss: 0.743663
+Elapsed: [0:02:08] Epoch:1 Step: 2476  Batch: 226  D_Loss: 1.406954  G_Loss: 0.737782
+Elapsed: [0:02:21] Epoch:1 Step: 2589  Batch: 339  D_Loss: 1.365596  G_Loss: 0.750659
+Elapsed: [0:02:33] Epoch:1 Step: 2702  Batch: 452  D_Loss: 1.404518  G_Loss: 0.738997
+Elapsed: [0:02:45] Epoch:1 Step: 2815  Batch: 565  D_Loss: 1.357315  G_Loss: 0.758646
+Elapsed: [0:02:58] Epoch:1 Step: 2928  Batch: 678  D_Loss: 1.391742  G_Loss: 0.727942
+Elapsed: [0:03:10] Epoch:1 Step: 3041  Batch: 791  D_Loss: 2.985480  G_Loss: 0.623898
+Elapsed: [0:03:23] Epoch:1 Step: 3154  Batch: 904  D_Loss: 1.360558  G_Loss: 0.762565
+Elapsed: [0:03:35] Epoch:1 Step: 3267  Batch: 1017  D_Loss: 1.400701  G_Loss: 0.670622
+Time taken for epoch: 0:02:03
+
+Saving the model to: checkpoints/rain/models/GAN_GEN_1_1.pth
+
+Saving the model to: checkpoints/rain/models/GAN_GEN_SHADOW_1_1.pth
+

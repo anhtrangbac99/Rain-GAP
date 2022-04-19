@@ -1,0 +1,278 @@
+True
+Using 1 GPUs.
+Loading generator from: %s checkpoints/rain/models/GAN_GEN_4_4.pth
+Loading discriminator from: %s checkpoints/rain/models/GAN_DIS_4_4.pth
+Loading shadow generator from: %s checkpoints/rain/models/GAN_GEN_SHADOW_4_4.pth
+Loading generator optimizer from: %s checkpoints/rain/models/GAN_GEN_OPTIM_4_4.pth
+Loading discriminator optimizer from: %s checkpoints/rain/models/GAN_DIS_OPTIM_4_4.pth
+Starting the training process ... 
+
+Currently working on depth: %d 1
+Current resolution: 4 x 4
+Epoch: [1]
+Elapsed: [0:00:04] Epoch:1 Step: 1  Batch: 1  D_Loss: 1.483323  G_Loss: 0.577074
+##################
+current_depth: 0 alpha:0
+use_ema True
+scale_factor 32
+##################
+Elapsed: [0:00:21] Epoch:1 Step: 71  Batch: 71  D_Loss: 1.386891  G_Loss: 0.693421
+##################
+current_depth: 0 alpha:0
+use_ema True
+scale_factor 32
+##################
+Elapsed: [0:00:39] Epoch:1 Step: 142  Batch: 142  D_Loss: 1.387493  G_Loss: 0.693905
+##################
+current_depth: 0 alpha:0
+use_ema True
+scale_factor 32
+##################
+Elapsed: [0:00:58] Epoch:1 Step: 213  Batch: 213  D_Loss: 1.387812  G_Loss: 0.692637
+##################
+current_depth: 0 alpha:0
+use_ema True
+scale_factor 32
+##################
+Elapsed: [0:01:15] Epoch:1 Step: 284  Batch: 284  D_Loss: 1.386632  G_Loss: 0.692907
+##################
+current_depth: 0 alpha:0
+use_ema True
+scale_factor 32
+##################
+Elapsed: [0:01:33] Epoch:1 Step: 355  Batch: 355  D_Loss: 1.386386  G_Loss: 0.693017
+##################
+current_depth: 0 alpha:0
+use_ema True
+scale_factor 32
+##################
+Elapsed: [0:01:50] Epoch:1 Step: 426  Batch: 426  D_Loss: 1.386393  G_Loss: 0.692837
+##################
+current_depth: 0 alpha:0
+use_ema True
+scale_factor 32
+##################
+Elapsed: [0:02:08] Epoch:1 Step: 497  Batch: 497  D_Loss: 1.386408  G_Loss: 0.693327
+##################
+current_depth: 0 alpha:0
+use_ema True
+scale_factor 32
+##################
+Elapsed: [0:02:25] Epoch:1 Step: 568  Batch: 568  D_Loss: 1.386633  G_Loss: 0.693274
+##################
+current_depth: 0 alpha:0
+use_ema True
+scale_factor 32
+##################
+Elapsed: [0:02:42] Epoch:1 Step: 639  Batch: 639  D_Loss: 1.386389  G_Loss: 0.693271
+##################
+current_depth: 0 alpha:0
+use_ema True
+scale_factor 32
+##################
+Time taken for epoch: 0:02:57
+
+Saving the model to: checkpoints/rain/models/GAN_GEN_0_1.pth
+
+Saving the model to: checkpoints/rain/models/GAN_GEN_SHADOW_0_1.pth
+
+Epoch: [2]
+Elapsed: [0:03:04] Epoch:2 Step: 704  Batch: 1  D_Loss: 1.386483  G_Loss: 0.692843
+##################
+current_depth: 0 alpha:1
+use_ema True
+scale_factor 32
+##################
+Elapsed: [0:03:21] Epoch:2 Step: 774  Batch: 71  D_Loss: 1.386340  G_Loss: 0.693074
+##################
+current_depth: 0 alpha:1
+use_ema True
+scale_factor 32
+##################
+Elapsed: [0:03:38] Epoch:2 Step: 845  Batch: 142  D_Loss: 1.386376  G_Loss: 0.694196
+##################
+current_depth: 0 alpha:1
+use_ema True
+scale_factor 32
+##################
+Elapsed: [0:03:56] Epoch:2 Step: 916  Batch: 213  D_Loss: 1.386321  G_Loss: 0.694893
+##################
+current_depth: 0 alpha:1
+use_ema True
+scale_factor 32
+##################
+Elapsed: [0:04:12] Epoch:2 Step: 987  Batch: 284  D_Loss: 1.386353  G_Loss: 0.691969
+##################
+current_depth: 0 alpha:1
+use_ema True
+scale_factor 32
+##################
+Elapsed: [0:04:30] Epoch:2 Step: 1058  Batch: 355  D_Loss: 1.386335  G_Loss: 0.691795
+##################
+current_depth: 0 alpha:1
+use_ema True
+scale_factor 32
+##################
+Elapsed: [0:04:47] Epoch:2 Step: 1129  Batch: 426  D_Loss: 1.386308  G_Loss: 0.693741
+##################
+current_depth: 0 alpha:1
+use_ema True
+scale_factor 32
+##################
+Elapsed: [0:05:04] Epoch:2 Step: 1200  Batch: 497  D_Loss: 1.386443  G_Loss: 0.692415
+##################
+current_depth: 0 alpha:1
+use_ema True
+scale_factor 32
+##################
+Elapsed: [0:05:21] Epoch:2 Step: 1271  Batch: 568  D_Loss: 1.386400  G_Loss: 0.693120
+##################
+current_depth: 0 alpha:1
+use_ema True
+scale_factor 32
+##################
+Elapsed: [0:05:38] Epoch:2 Step: 1342  Batch: 639  D_Loss: 1.386353  G_Loss: 0.693140
+##################
+current_depth: 0 alpha:1
+use_ema True
+scale_factor 32
+##################
+Time taken for epoch: 0:02:50
+
+Saving the model to: checkpoints/rain/models/GAN_GEN_0_2.pth
+
+Saving the model to: checkpoints/rain/models/GAN_GEN_SHADOW_0_2.pth
+
+Currently working on depth: %d 2
+Current resolution: 8 x 8
+Epoch: [1]
+Elapsed: [0:06:00] Epoch:1 Step: 1407  Batch: 1  D_Loss: 1.386299  G_Loss: 0.693247
+##################
+current_depth: 1 alpha:0
+use_ema True
+scale_factor 16
+##################
+Elapsed: [0:06:22] Epoch:1 Step: 1477  Batch: 71  D_Loss: 1.386296  G_Loss: 0.693158
+##################
+current_depth: 1 alpha:0
+use_ema True
+scale_factor 16
+##################
+Elapsed: [0:06:45] Epoch:1 Step: 1548  Batch: 142  D_Loss: 1.386319  G_Loss: 0.693261
+##################
+current_depth: 1 alpha:0
+use_ema True
+scale_factor 16
+##################
+Elapsed: [0:07:07] Epoch:1 Step: 1619  Batch: 213  D_Loss: 1.386298  G_Loss: 0.693196
+##################
+current_depth: 1 alpha:0
+use_ema True
+scale_factor 16
+##################
+Elapsed: [0:07:29] Epoch:1 Step: 1690  Batch: 284  D_Loss: 1.386184  G_Loss: 0.693830
+##################
+current_depth: 1 alpha:0
+use_ema True
+scale_factor 16
+##################
+Elapsed: [0:07:52] Epoch:1 Step: 1761  Batch: 355  D_Loss: 1.386322  G_Loss: 0.694283
+##################
+current_depth: 1 alpha:0
+use_ema True
+scale_factor 16
+##################
+Elapsed: [0:08:14] Epoch:1 Step: 1832  Batch: 426  D_Loss: 1.386269  G_Loss: 0.694530
+##################
+current_depth: 1 alpha:0
+use_ema True
+scale_factor 16
+##################
+Elapsed: [0:08:36] Epoch:1 Step: 1903  Batch: 497  D_Loss: 1.386445  G_Loss: 0.693732
+##################
+current_depth: 1 alpha:0
+use_ema True
+scale_factor 16
+##################
+Elapsed: [0:08:58] Epoch:1 Step: 1974  Batch: 568  D_Loss: 1.386272  G_Loss: 0.693216
+##################
+current_depth: 1 alpha:0
+use_ema True
+scale_factor 16
+##################
+Elapsed: [0:09:21] Epoch:1 Step: 2045  Batch: 639  D_Loss: 1.386170  G_Loss: 0.692440
+##################
+current_depth: 1 alpha:0
+use_ema True
+scale_factor 16
+##################
+Time taken for epoch: 0:03:41
+
+Saving the model to: checkpoints/rain/models/GAN_GEN_1_1.pth
+
+Saving the model to: checkpoints/rain/models/GAN_GEN_SHADOW_1_1.pth
+
+Epoch: [2]
+Elapsed: [0:09:47] Epoch:2 Step: 2110  Batch: 1  D_Loss: 1.386284  G_Loss: 0.693029
+##################
+current_depth: 1 alpha:0
+use_ema True
+scale_factor 16
+##################
+Elapsed: [0:10:09] Epoch:2 Step: 2180  Batch: 71  D_Loss: 1.386870  G_Loss: 0.699349
+##################
+current_depth: 1 alpha:0
+use_ema True
+scale_factor 16
+##################
+Elapsed: [0:10:32] Epoch:2 Step: 2251  Batch: 142  D_Loss: 1.386297  G_Loss: 0.693250
+##################
+current_depth: 1 alpha:0
+use_ema True
+scale_factor 16
+##################
+Elapsed: [0:10:55] Epoch:2 Step: 2322  Batch: 213  D_Loss: 1.385918  G_Loss: 0.692997
+##################
+current_depth: 1 alpha:0
+use_ema True
+scale_factor 16
+##################
+Elapsed: [0:11:17] Epoch:2 Step: 2393  Batch: 284  D_Loss: 1.386277  G_Loss: 0.693081
+##################
+current_depth: 1 alpha:0
+use_ema True
+scale_factor 16
+##################
+Elapsed: [0:11:40] Epoch:2 Step: 2464  Batch: 355  D_Loss: 1.386248  G_Loss: 0.692729
+##################
+current_depth: 1 alpha:0
+use_ema True
+scale_factor 16
+##################
+Elapsed: [0:12:03] Epoch:2 Step: 2535  Batch: 426  D_Loss: 1.386178  G_Loss: 0.691791
+##################
+current_depth: 1 alpha:0
+use_ema True
+scale_factor 16
+##################
+Elapsed: [0:12:25] Epoch:2 Step: 2606  Batch: 497  D_Loss: 1.386367  G_Loss: 0.695193
+##################
+current_depth: 1 alpha:0
+use_ema True
+scale_factor 16
+##################
+Elapsed: [0:12:48] Epoch:2 Step: 2677  Batch: 568  D_Loss: 1.387285  G_Loss: 0.691813
+##################
+current_depth: 1 alpha:0
+use_ema True
+scale_factor 16
+##################
+Elapsed: [0:13:10] Epoch:2 Step: 2748  Batch: 639  D_Loss: 1.386524  G_Loss: 0.693857
+##################
+current_depth: 1 alpha:0
+use_ema True
+scale_factor 16
+##################
+Time taken for epoch: 0:03:44
+
+Epoch: [3]

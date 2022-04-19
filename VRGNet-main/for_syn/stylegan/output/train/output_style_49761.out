@@ -1,0 +1,12 @@
+True
+Using 1 GPUs.
+Loading generator from: %s checkpoints/rain/models/GAN_GEN_4_4.pth
+Loading discriminator from: %s checkpoints/rain/models/GAN_DIS_4_4.pth
+Loading shadow generator from: %s checkpoints/rain/models/GAN_GEN_SHADOW_4_4.pth
+Loading generator optimizer from: %s checkpoints/rain/models/GAN_GEN_OPTIM_4_4.pth
+Loading discriminator optimizer from: %s checkpoints/rain/models/GAN_DIS_OPTIM_4_4.pth
+Starting the training process ... 
+
+Currently working on depth: %d 1
+Current resolution: 4 x 4
+Epoch: [1]

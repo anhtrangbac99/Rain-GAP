@@ -1,0 +1,7 @@
+True
+Using 1 GPUs.
+Loading generator from: %s checkpoints/rain/models/GAN_GEN_5_8.pth
+Loading discriminator from: %s checkpoints/rain/models/GAN_DIS_5_8.pth
+Loading shadow generator from: %s checkpoints/rain/models/GAN_GEN_SHADOW_5_8.pth
+Loading generator optimizer from: %s checkpoints/rain/models/GAN_GEN_OPTIM_5_8.pth
+Loading discriminator optimizer from: %s checkpoints/rain/models/GAN_DIS_OPTIM_5_8.pth
